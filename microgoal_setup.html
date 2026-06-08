@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>MicroGoal - Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: #0A0E1A;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Background grid */
+  .bg-grid {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+      linear-gradient(rgba(0,229,204,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,204,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  /* Top Header */
+  .header {
+    position: relative;
+    z-index: 1;
+    padding: 50px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #00E5CC;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  /* Main content */
+  .content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    padding: 10px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+  }
+
+  /* Section card */
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,229,204,0.12);
+    border-radius: 20px;
+    padding: 22px 20px;
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #00E5CC;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  /* Goal title input */
+  .goal-input {
+    width: 100%;
+    background: rgba(0,229,204,0.05);
+    border: 1.5px solid rgba(0,229,204,0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #FFFFFF;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .goal-input::placeholder {
+    color: rgba(255,255,255,0.2);
+    font-weight: 400;
+  }
+
+  .goal-input:focus {
+    border-color: #00E5CC;
+    box-shadow: 0 0 16px rgba(0,229,204,0.15);
+  }
+
+  /* Quick suggestions */
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .suggestion-chip {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(0,229,204,0.07);
+    border: 1px solid rgba(0,229,204,0.2);
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .suggestion-chip:active,
+  .suggestion-chip.active {
+    background: rgba(0,229,204,0.15);
+    border-color: #00E5CC;
+    color: #00E5CC;
+  }
+
+  /* Unit type selector */
+  .unit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .unit-option {
+    padding: 10px 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .unit-option.selected {
+    background: rgba(0,229,204,0.08);
+    border-color: #00E5CC;
+  }
+
+  .unit-option .unit-emoji {
+    font-size: 22px;
+  }
+
+  .unit-option .unit-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.5px;
+  }
+
+  .unit-option.selected .unit-name {
+    color: #00E5CC;
+  }
+
+  /* Number stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: rgba(0,229,204,0.05);
+    border: 1.5px solid rgba(0,229,204,0.2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .stepper-btn {
+    width: 64px;
+    height: 64px;
+    background: transparent;
+    border: none;
+    color: #00E5CC;
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .stepper-btn:active {
+    background: rgba(0,229,204,0.1);
+  }
+
+  .stepper-value {
+    flex: 1;
+    text-align: center;
+  }
+
+  .stepper-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #FFFFFF;
+    display: block;
+    line-height: 1;
+  }
+
+  .stepper-unit-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Divider line in stepper */
+  .stepper-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(0,229,204,0.15);
+    flex-shrink: 0;
+  }
+
+  /* Duration display */
+  .duration-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .duration-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .duration-big {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #00E5CC;
+    text-shadow: 0 0 16px rgba(0,229,204,0.5);
+  }
+
+  .duration-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .challenge-badge {
+    padding: 8px 14px;
+    background: rgba(0,229,204,0.1);
+    border: 1px solid rgba(0,229,204,0.3);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #00E5CC;
+    letter-spacing: 1px;
+  }
+
+  /* Setup button */
+  .setup-btn {
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #00E5CC, #00B4A0);
+    color: #0A0E1A;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,229,204,0.35), 0 8px 24px rgba(0,0,0,0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    margin-top: 4px;
+    animation: fadeUp 0.5s 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .setup-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 40%; height: 200%;
+    background: rgba(255,255,255,0.25);
+    transform: skewX(-20deg);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -60%; }
+    100% { left: 160%; }
+  }
+
+  .setup-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 15px rgba(0,229,204,0.3);
+  }
+
+  .setup-btn:disabled {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.3);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  /* Error message */
+  .error-msg {
+    font-size: 12px;
+    color: #FF6B6B;
+    text-align: center;
+    display: none;
+    margin-top: -10px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-label">Step 1 of 1</div>
+  <div class="header-title">YOUR QUEST</div>
+  <div class="header-sub">Set your one micro-habit for 30 days</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- Goal Title -->
+  <div class="card">
+    <div class="card-label">Goal Title</div>
+    <input
+      class="goal-input"
+      id="goalInput"
+      type="text"
+      placeholder="e.g. Drink 2L of water"
+      maxlength="40"
+      oninput="onGoalInput()"
+    />
+    <div class="suggestions">
+      <div class="suggestion-chip" onclick="selectSuggestion('Drink 2L of water')">💧 Drink 2L water</div>
+      <div class="suggestion-chip" onclick="selectSuggestion('Read 10 pages')">📖 Read 10 pages</div>
+      <div class="suggestion-chip" onclick="selectSuggestion('Exercise 30 mins')">🏃 Exercise 30 mins</div>
+      <div class="suggestion-chip" onclick="selectSuggestion('Meditate 10 mins')">🧘 Meditate</div>
+      <div class="suggestion-chip" onclick="selectSuggestion('No junk food today')">🥗 No junk food</div>
+    </div>
+  </div>
+
+  <!-- Unit Type -->
+  <div class="card">
+    <div class="card-label">Measure In</div>
+    <div class="unit-grid">
+      <div class="unit-option selected" onclick="selectUnit(this, 'Pages')" id="unit-pages">
+        <span class="unit-emoji">📄</span>
+        <span class="unit-name">Pages</span>
+      </div>
+      <div class="unit-option" onclick="selectUnit(this, 'Litres')" id="unit-litres">
+        <span class="unit-emoji">💧</span>
+        <span class="unit-name">Litres</span>
+      </div>
+      <div class="unit-option" onclick="selectUnit(this, 'Minutes')" id="unit-minutes">
+        <span class="unit-emoji">⏱️</span>
+        <span class="unit-name">Minutes</span>
+      </div>
+      <div class="unit-option" onclick="selectUnit(this, 'Steps')" id="unit-steps">
+        <span class="unit-emoji">👟</span>
+        <span class="unit-name">Steps</span>
+      </div>
+      <div class="unit-option" onclick="selectUnit(this, 'Times')" id="unit-times">
+        <span class="unit-emoji">✅</span>
+        <span class="unit-name">Times</span>
+      </div>
+      <div class="unit-option" onclick="selectUnit(this, 'Glasses')" id="unit-glasses">
+        <span class="unit-emoji">🥤</span>
+        <span class="unit-name">Glasses</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Target Stepper -->
+  <div class="card">
+    <div class="card-label">Daily Target</div>
+    <div class="stepper">
+      <button class="stepper-btn" onclick="decrease()">−</button>
+      <div class="stepper-divider"></div>
+      <div class="stepper-value">
+        <span class="stepper-number" id="targetNum">10</span>
+        <span class="stepper-unit-label" id="targetUnit">Pages</span>
+      </div>
+      <div class="stepper-divider"></div>
+      <button class="stepper-btn" onclick="increase()">+</button>
+    </div>
+  </div>
+
+  <!-- Challenge Duration -->
+  <div class="card">
+    <div class="card-label">Challenge Duration</div>
+    <div class="duration-row">
+      <div class="duration-info">
+        <span class="duration-big">30 DAYS</span>
+        <span class="duration-sub">Starts today · Ends in 30 days</span>
+      </div>
+      <div class="challenge-badge">⚡ LOCKED IN</div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-msg" id="errorMsg">⚠️ Please enter your goal title first!</div>
+
+  <!-- Setup Button -->
+  <button class="setup-btn" id="setupBtn" onclick="setupGoal()">
+    BEGIN 30-DAY CHALLENGE
+  </button>
+
+</div>
+
+<script>
+  let targetValue = 10;
+  let selectedUnit = 'Pages';
+
+  function increase() {
+    targetValue++;
+    document.getElementById('targetNum').textContent = targetValue;
+    pulse('targetNum');
+  }
+
+  function decrease() {
+    if (targetValue > 1) {
+      targetValue--;
+      document.getElementById('targetNum').textContent = targetValue;
+      pulse('targetNum');
+    }
+  }
+
+  function pulse(id) {
+    const el = document.getElementById(id);
+    el.style.transform = 'scale(1.2)';
+    el.style.color = '#00E5CC';
+    setTimeout(() => {
+      el.style.transform = 'scale(1)';
+      el.style.color = '#FFFFFF';
+    }, 150);
+  }
+
+  function selectUnit(el, unit) {
+    document.querySelectorAll('.unit-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedUnit = unit;
+    document.getElementById('targetUnit').textContent = unit;
+  }
+
+  function selectSuggestion(text) {
+    document.getElementById('goalInput').value = text;
+    document.querySelectorAll('.suggestion-chip').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    hideError();
+  }
+
+  function onGoalInput() {
+    hideError();
+  }
+
+  function hideError() {
+    document.getElementById('errorMsg').style.display = 'none';
+  }
+
+  function setupGoal() {
+    const goal = document.getElementById('goalInput').value.trim();
+    if (!goal) {
+      document.getElementById('errorMsg').style.display = 'block';
+      document.getElementById('goalInput').focus();
+      return;
+    }
+
+    const data = {
+      action: 'SETUP_GOAL',
+      goalTitle: goal,
+      targetValue: targetValue,
+      targetUnit: selectedUnit
+    };
+
+    window.AppInventor.setWebViewString(JSON.stringify(data));
+  }
+</script>
+
+</body>
+</html>
