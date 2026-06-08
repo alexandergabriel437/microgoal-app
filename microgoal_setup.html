@@ -14,7 +14,8 @@
     display: flex;
     flex-direction: column;
     font-family: 'Rajdhani', sans-serif;
-    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     position: relative;
   }
 
@@ -71,7 +72,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Section card */
@@ -207,7 +209,8 @@
     background: rgba(0,229,204,0.05);
     border: 1.5px solid rgba(0,229,204,0.2);
     border-radius: 16px;
-    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   .stepper-btn {
@@ -313,7 +316,8 @@
     letter-spacing: 2px;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     box-shadow: 0 0 30px rgba(0,229,204,0.35), 0 8px 24px rgba(0,0,0,0.3);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     margin-top: 4px;
