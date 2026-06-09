@@ -528,9 +528,8 @@
 
   function init() {
     try {
-      // Read data from URL — format: ?goal=X&target=Y&unit=Z
       var url = window.location.href;
-      
+
       function getParam(key) {
         var match = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
         return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : null;
@@ -542,7 +541,18 @@
       var s = getParam('streak');
       var d = getParam('day');
 
-      if (g && g !== 'null') goalTitle = g;
+      if (g && g !== 'null') {
+        // Clean up goal title — remove SETUP_GOAL| prefix if present
+        if (g.indexOf('SETUP_GOAL|') === 0) {
+          var parts = g.split('|');
+          goalTitle = parts[1] || 'My Goal';
+          targetValue = parseInt(parts[2]) || 10;
+          targetUnit = parts[3] || 'Pages';
+        } else {
+          goalTitle = g;
+        }
+      }
+
       if (t && t !== 'null') targetValue = parseInt(t);
       if (u && u !== 'null') targetUnit = u;
       if (s && s !== 'null') streak = parseInt(s);
