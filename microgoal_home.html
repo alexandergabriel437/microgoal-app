@@ -604,6 +604,14 @@
   function init() {
     // Load data from Kodular via URL params or AppInventor
     try {
+      // Try to get data from URL params first
+      const raw = params.get("data");
+      if (raw) {
+        const parsed = JSON.parse(decodeURIComponent(raw));
+        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
+        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
+        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
+      }
       const params = new URLSearchParams(window.location.search);
       if (params.get('goal')) goalTitle = decodeURIComponent(params.get('goal'));
       if (params.get('target')) targetValue = parseInt(params.get('target'));
@@ -699,7 +707,15 @@
         day: currentDay,
         completedDays: completedDays
       };
-      try { window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
+      try {
+      // Try to get data from URL params first
+      const raw = params.get("data");
+      if (raw) {
+        const parsed = JSON.parse(decodeURIComponent(raw));
+        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
+        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
+        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
+      } window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
 
       // Level up check
       if (streak > 0 && streak % 7 === 0) {
@@ -711,7 +727,15 @@
         action: 'LOG_PARTIAL',
         value: currentValue
       };
-      try { window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
+      try {
+      // Try to get data from URL params first
+      const raw = params.get("data");
+      if (raw) {
+        const parsed = JSON.parse(decodeURIComponent(raw));
+        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
+        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
+        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
+      } window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
     }
   }
 
@@ -732,7 +756,15 @@
     overlay.classList.add('show');
     spawnParticles();
     // Tell Kodular to play sound
-    try { window.AppInventor.setWebViewString('PLAY_LEVELUP_SOUND'); } catch(e) {}
+    try {
+      // Try to get data from URL params first
+      const raw = params.get("data");
+      if (raw) {
+        const parsed = JSON.parse(decodeURIComponent(raw));
+        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
+        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
+        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
+      } window.AppInventor.setWebViewString('PLAY_LEVELUP_SOUND'); } catch(e) {}
   }
 
   function closeLevelUp() {
