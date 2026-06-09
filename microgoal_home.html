@@ -16,7 +16,6 @@
     font-family: 'Rajdhani', sans-serif;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    position: relative;
   }
 
   .bg-grid {
@@ -28,6 +27,7 @@
       linear-gradient(90deg, rgba(0,229,204,0.03) 1px, transparent 1px);
     background-size: 40px 40px;
     z-index: 0;
+    pointer-events: none;
   }
 
   /* Header */
@@ -41,10 +41,11 @@
   }
 
   .header-left .greeting {
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 3px;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.75);
     text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
   }
 
   .header-left .goal-name {
@@ -52,11 +53,10 @@
     font-size: 18px;
     font-weight: 700;
     color: #FFFFFF;
-    margin-top: 2px;
-    max-width: 220px;
+    margin-top: 4px;
+    max-width: 200px;
     white-space: nowrap;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     text-overflow: ellipsis;
   }
 
@@ -65,26 +65,28 @@
     flex-direction: column;
     align-items: center;
     background: rgba(0,229,204,0.08);
-    border: 1px solid rgba(0,229,204,0.25);
+    border: 1.5px solid rgba(0,229,204,0.25);
     border-radius: 14px;
-    padding: 10px 16px;
+    padding: 10px 18px;
     gap: 2px;
+    min-width: 80px;
   }
 
-  .streak-badge .streak-num {
+  .streak-num {
     font-family: 'Orbitron', sans-serif;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 900;
     color: #00E5CC;
     text-shadow: 0 0 12px rgba(0,229,204,0.6);
     line-height: 1;
   }
 
-  .streak-badge .streak-label {
+  .streak-label {
     font-size: 10px;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.80);
     text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
   }
 
   /* Main content */
@@ -95,8 +97,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 24px 100px;
-    overflow-y: auto;
+    padding: 0 24px 120px;
     gap: 20px;
   }
 
@@ -105,79 +106,78 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 12px;
+    width: 100%;
+    margin-top: 8px;
   }
 
   .ring-wrapper {
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 210px;
+    height: 210px;
   }
 
-  .ring-wrapper svg {
+  .ring-svg {
     transform: rotate(-90deg);
-    width: 220px;
-    height: 220px;
+    width: 210px;
+    height: 210px;
   }
 
   .ring-bg {
     fill: none;
-    stroke: rgba(255,255,255,0.05);
-    stroke-width: 12;
+    stroke: rgba(255,255,255,0.08);
+    stroke-width: 14;
   }
 
   .ring-progress {
     fill: none;
-    stroke: url(#ringGradient);
-    stroke-width: 12;
+    stroke: #00E5CC;
+    stroke-width: 14;
     stroke-linecap: round;
-    stroke-dasharray: 628;
-    stroke-dashoffset: 628;
-    transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 0 8px rgba(0,229,204,0.6));
+    stroke-dasharray: 597;
+    stroke-dashoffset: 597;
+    transition: stroke-dashoffset 1s ease;
+    filter: drop-shadow(0 0 8px rgba(0,229,204,0.7));
   }
 
   .ring-center {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    justify-content: center;
+    gap: 4px;
   }
 
   .ring-value {
     font-family: 'Orbitron', sans-serif;
-    font-size: 38px;
+    font-size: 44px;
     font-weight: 900;
     color: #FFFFFF;
     line-height: 1;
-    transition: all 0.3s ease;
   }
 
-  .ring-label {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-  }
-
-  .ring-target {
+  .ring-unit-label {
+    font-family: 'Rajdhani', sans-serif;
     font-size: 12px;
-    color: rgba(255,255,255,0.25);
-    margin-top: 2px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.80);
+    text-transform: uppercase;
   }
 
-  /* Status text */
+  .ring-target-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+  }
+
   .status-text {
+    font-family: 'Rajdhani', sans-serif;
     font-size: 13px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    text-align: center;
+    color: rgba(255,255,255,0.75);
   }
 
   .status-text.complete {
@@ -185,8 +185,8 @@
     text-shadow: 0 0 12px rgba(0,229,204,0.5);
   }
 
-  /* Day progress bar */
-  .day-card {
+  /* Cards */
+  .card {
     width: 100%;
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(0,229,204,0.1);
@@ -194,84 +194,67 @@
     padding: 18px 20px;
   }
 
-  .day-card-top {
+  .card-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #00E5CC;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.8;
+  }
+
+  .day-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 14px;
   }
 
-  .day-card-label {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #00E5CC;
-    text-transform: uppercase;
-    opacity: 0.8;
-  }
-
   .day-count {
     font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
   }
 
-  /* Mini day dots */
   .day-dots {
     display: flex;
-    gap: 5px;
     flex-wrap: wrap;
+    gap: 5px;
   }
 
   .day-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.08);
-    transition: all 0.3s ease;
   }
 
   .day-dot.done {
-    background: rgba(0,229,204,0.25);
+    background: rgba(0,229,204,0.3);
     border-color: #00E5CC;
-    box-shadow: 0 0 6px rgba(0,229,204,0.3);
+    box-shadow: 0 0 5px rgba(0,229,204,0.3);
   }
 
   .day-dot.today {
-    background: rgba(0,229,204,0.1);
-    border-color: rgba(0,229,204,0.5);
+    background: rgba(0,229,204,0.08);
+    border-color: rgba(0,229,204,0.6);
     animation: todayPulse 2s infinite;
   }
 
   @keyframes todayPulse {
-    0%, 100% { border-color: rgba(0,229,204,0.5); }
-    50% { border-color: #00E5CC; box-shadow: 0 0 8px rgba(0,229,204,0.4); }
+    0%,100% { border-color: rgba(0,229,204,0.4); }
+    50% { border-color: #00E5CC; }
   }
 
-  /* Log input section */
-  .log-card {
+  /* Log input */
+  .log-row {
     width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(0,229,204,0.1);
-    border-radius: 18px;
-    padding: 18px 20px;
     display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .log-card-label {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #00E5CC;
-    text-transform: uppercase;
-    opacity: 0.8;
-  }
-
-  .log-input-row {
-    display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
   }
 
   .log-input {
@@ -279,29 +262,29 @@
     background: rgba(0,229,204,0.05);
     border: 1.5px solid rgba(0,229,204,0.2);
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 14px;
     color: #FFFFFF;
     font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     text-align: center;
     outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    -webkit-appearance: none;
   }
 
   .log-input:focus {
     border-color: #00E5CC;
-    box-shadow: 0 0 16px rgba(0,229,204,0.15);
+    box-shadow: 0 0 14px rgba(0,229,204,0.15);
   }
 
-  .log-unit {
-    font-size: 13px;
-    color: rgba(255,255,255,0.35);
+  .log-unit-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
     letter-spacing: 1px;
-    min-width: 50px;
+    min-width: 55px;
   }
 
-  /* Log Button */
   .log-btn {
     width: 100%;
     padding: 16px;
@@ -314,11 +297,10 @@
     font-weight: 700;
     letter-spacing: 2px;
     cursor: pointer;
-    position: relative;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    box-shadow: 0 0 24px rgba(0,229,204,0.35);
+    box-shadow: 0 0 24px rgba(0,229,204,0.3);
     transition: transform 0.15s ease;
+    position: relative;
+    overflow: hidden;
   }
 
   .log-btn::before {
@@ -326,7 +308,7 @@
     position: absolute;
     top: -50%; left: -60%;
     width: 40%; height: 200%;
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.2);
     transform: skewX(-20deg);
     animation: shimmer 3s infinite;
   }
@@ -338,8 +320,8 @@
 
   .log-btn:active { transform: scale(0.97); }
 
-  .log-btn.completed {
-    background: rgba(0,229,204,0.1);
+  .log-btn.done-btn {
+    background: rgba(0,229,204,0.08);
     border: 1.5px solid #00E5CC;
     color: #00E5CC;
     box-shadow: none;
@@ -350,11 +332,10 @@
     position: fixed;
     bottom: 0; left: 0; right: 0;
     z-index: 10;
-    background: rgba(10,14,26,0.95);
-    backdrop-filter: blur(20px);
+    background: rgba(10,14,26,0.97);
     border-top: 1px solid rgba(0,229,204,0.1);
     display: flex;
-    padding: 10px 0 20px;
+    padding: 10px 0 24px;
   }
 
   .nav-item {
@@ -364,92 +345,73 @@
     align-items: center;
     gap: 4px;
     cursor: pointer;
-    padding: 6px 0;
-    transition: all 0.2s ease;
+    padding: 4px 0;
   }
 
-  .nav-icon {
-    font-size: 20px;
-    transition: transform 0.2s ease;
-  }
+  .nav-icon { font-size: 20px; }
 
   .nav-label {
+    font-family: 'Rajdhani', sans-serif;
     font-size: 10px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.75);
     text-transform: uppercase;
   }
 
-  .nav-item.active .nav-label {
-    color: #00E5CC;
-  }
+  .nav-item.active .nav-label { color: #00E5CC; }
+  .nav-item.active .nav-icon { filter: drop-shadow(0 0 5px rgba(0,229,204,0.8)); }
 
-  .nav-item.active .nav-icon {
-    filter: drop-shadow(0 0 6px rgba(0,229,204,0.8));
-    transform: translateY(-2px);
-  }
-
-  /* Level Up Overlay */
+  /* Level Up */
   .levelup-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     z-index: 100;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.88);
     display: none;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 16px;
+    gap: 20px;
   }
 
-  .levelup-overlay.show {
-    display: flex;
-    animation: overlayIn 0.4s ease forwards;
-  }
-
-  @keyframes overlayIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+  .levelup-overlay.show { display: flex; }
 
   .levelup-ring {
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 3px solid #00E5CC;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 64px;
-    box-shadow: 0 0 40px rgba(0,229,204,0.6), inset 0 0 40px rgba(0,229,204,0.1);
-    animation: levelupPulse 0.6s ease infinite alternate;
+    font-size: 60px;
+    box-shadow: 0 0 50px rgba(0,229,204,0.6);
+    animation: lvlPulse 0.8s ease infinite alternate;
   }
 
-  @keyframes levelupPulse {
-    from { box-shadow: 0 0 40px rgba(0,229,204,0.6), inset 0 0 40px rgba(0,229,204,0.1); }
-    to { box-shadow: 0 0 80px rgba(0,229,204,0.9), inset 0 0 60px rgba(0,229,204,0.2); }
+  @keyframes lvlPulse {
+    from { box-shadow: 0 0 30px rgba(0,229,204,0.5); }
+    to { box-shadow: 0 0 70px rgba(0,229,204,0.9); }
   }
 
   .levelup-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 900;
     color: #00E5CC;
     text-shadow: 0 0 30px rgba(0,229,204,0.8);
     letter-spacing: 3px;
-    text-align: center;
   }
 
   .levelup-sub {
-    font-size: 14px;
-    color: rgba(255,255,255,0.5);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.85);
     letter-spacing: 2px;
-    text-align: center;
   }
 
-  .levelup-btn {
-    margin-top: 10px;
-    padding: 14px 40px;
+  .levelup-close {
+    padding: 14px 36px;
     border-radius: 12px;
     border: 1.5px solid #00E5CC;
     background: rgba(0,229,204,0.1);
@@ -459,47 +421,31 @@
     font-weight: 700;
     letter-spacing: 2px;
     cursor: pointer;
+    margin-top: 8px;
   }
 
-  /* Particles for level up */
   .particle {
     position: fixed;
-    pointer-events: none;
     border-radius: 50%;
-    animation: particleFly 1s ease-out forwards;
+    pointer-events: none;
+    animation: pFly 1.2s ease-out forwards;
     z-index: 101;
   }
 
-  @keyframes particleFly {
+  @keyframes pFly {
     0% { opacity: 1; transform: translate(0,0) scale(1); }
-    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+    100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(0); }
   }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .content > * {
-    animation: fadeUp 0.5s ease forwards;
-    opacity: 0;
-  }
-
-  .ring-section { animation-delay: 0.1s; }
-  .day-card { animation-delay: 0.2s; }
-  .log-card { animation-delay: 0.3s; }
-
 </style>
 </head>
 <body>
 
 <div class="bg-grid"></div>
 
-<!-- Header -->
 <div class="header">
   <div class="header-left">
     <div class="greeting">TODAY'S QUEST</div>
-    <div class="goal-name" id="goalName">Daily Reading</div>
+    <div class="goal-name" id="goalName">My Goal</div>
   </div>
   <div class="streak-badge">
     <span class="streak-num" id="streakNum">0</span>
@@ -507,61 +453,43 @@
   </div>
 </div>
 
-<!-- Content -->
 <div class="content">
 
-  <!-- Progress Ring -->
   <div class="ring-section">
     <div class="ring-wrapper">
-      <svg viewBox="0 0 220 220">
-        <defs>
-          <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#00E5CC"/>
-            <stop offset="100%" style="stop-color:#00B4A0"/>
-          </linearGradient>
-        </defs>
-        <circle class="ring-bg" cx="110" cy="110" r="100"/>
-        <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="100"/>
+      <svg class="ring-svg" viewBox="0 0 210 210">
+        <circle class="ring-bg" cx="105" cy="105" r="95"/>
+        <circle class="ring-progress" id="ringProgress" cx="105" cy="105" r="95"/>
       </svg>
       <div class="ring-center">
         <span class="ring-value" id="ringValue">0</span>
-        <span class="ring-label" id="ringUnit">PAGES</span>
-        <span class="ring-target" id="ringTarget">of 10 today</span>
+        <span class="ring-unit-label" id="ringUnitLabel">UNIT</span>
+        <span class="ring-target-label" id="ringTargetLabel">of 10 today</span>
       </div>
     </div>
     <div class="status-text" id="statusText">INCOMPLETE</div>
   </div>
 
-  <!-- 30-Day Progress -->
-  <div class="day-card">
-    <div class="day-card-top">
-      <span class="day-card-label">30-Day Progress</span>
+  <div class="card">
+    <div class="day-header">
+      <span class="card-label" style="margin-bottom:0">30-Day Progress</span>
       <span class="day-count" id="dayCount">Day 1/30</span>
     </div>
     <div class="day-dots" id="dayDots"></div>
   </div>
 
-  <!-- Log Input -->
-  <div class="log-card">
-    <div class="log-card-label">Log Progress</div>
-    <div class="log-input-row">
-      <input
-        class="log-input"
-        id="logInput"
-        type="number"
-        placeholder="0"
-        min="0"
-      />
-      <span class="log-unit" id="logUnit">Pages</span>
+  <div class="card">
+    <div class="card-label">Log Progress</div>
+    <div style="display:flex;align-items:center;background:rgba(0,229,204,0.05);border:1.5px solid rgba(0,229,204,0.2);border-radius:12px;overflow:hidden;width:100%;margin-bottom:14px;">
+      <input id="logInput" type="number" placeholder="0" min="0" style="flex:1;background:transparent;border:none;padding:14px 10px;color:#FFFFFF;font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;text-align:center;outline:none;width:0;min-width:0;-webkit-appearance:none;"/>
+      <div style="width:1px;height:30px;background:rgba(0,229,204,0.2);flex-shrink:0;"></div>
+      <span id="logUnitText" style="font-family:'Rajdhani',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);letter-spacing:1px;padding:0 14px;flex-shrink:0;white-space:nowrap;">Unit</span>
     </div>
-    <button class="log-btn" id="logBtn" onclick="logProgress()">
-      LOG PROGRESS
-    </button>
+    <button class="log-btn" id="logBtn" onclick="logProgress()">LOG PROGRESS</button>
   </div>
 
 </div>
 
-<!-- Bottom Nav -->
 <div class="bottom-nav">
   <div class="nav-item active">
     <span class="nav-icon">🏠</span>
@@ -581,109 +509,88 @@
   </div>
 </div>
 
-<!-- Level Up Overlay -->
 <div class="levelup-overlay" id="levelupOverlay">
   <div class="levelup-ring">⚡</div>
   <div class="levelup-title">LEVEL UP!</div>
-  <div class="levelup-sub" id="levelupSub">7-DAY STREAK ACHIEVED</div>
-  <button class="levelup-btn" onclick="closeLevelUp()">CONTINUE QUEST</button>
+  <div class="levelup-sub" id="levelupSub">7-DAY STREAK!</div>
+  <button class="levelup-close" onclick="closeLevelUp()">CONTINUE QUEST</button>
 </div>
 
 <script>
-  // ── State ──
-  let goalTitle = 'Daily Reading';
-  let targetValue = 10;
-  let targetUnit = 'Pages';
-  let currentValue = 0;
-  let streak = 0;
-  let currentDay = 1;
-  let completedDays = [];
-  let todayLogged = false;
+  var goalTitle = 'My Goal';
+  var targetValue = 10;
+  var targetUnit = 'Pages';
+  var currentValue = 0;
+  var streak = 0;
+  var currentDay = 1;
+  var completedDays = [];
+  var todayDone = false;
 
-  // ── Init ──
   function init() {
-    // Load data from Kodular via URL params or AppInventor
     try {
-      // Try to get data from URL params first
-      const raw = params.get("data");
-      if (raw) {
-        const parsed = JSON.parse(decodeURIComponent(raw));
-        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
-        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
-        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
+      var search = window.location.search;
+      if (search) {
+        var dataParam = search.split('data=')[1];
+        if (dataParam) {
+          var decoded = decodeURIComponent(dataParam);
+          var json = JSON.parse(decoded);
+          if (json.goalTitle) goalTitle = json.goalTitle;
+          if (json.targetValue) targetValue = parseInt(json.targetValue);
+          if (json.targetUnit) targetUnit = json.targetUnit;
+          if (json.streak) streak = parseInt(json.streak);
+          if (json.day) currentDay = parseInt(json.day);
+          if (json.completedDays) completedDays = json.completedDays;
+          if (json.done) todayDone = json.done === true;
+          if (json.logged) currentValue = parseInt(json.logged);
+        }
       }
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('goal')) goalTitle = decodeURIComponent(params.get('goal'));
-      if (params.get('target')) targetValue = parseInt(params.get('target'));
-      if (params.get('unit')) targetUnit = decodeURIComponent(params.get('unit'));
-      if (params.get('streak')) streak = parseInt(params.get('streak'));
-      if (params.get('day')) currentDay = parseInt(params.get('day'));
-      if (params.get('logged')) currentValue = parseInt(params.get('logged'));
-      if (params.get('days')) completedDays = JSON.parse(decodeURIComponent(params.get('days')));
-      if (params.get('done')) todayLogged = params.get('done') === 'true';
     } catch(e) {}
 
     renderAll();
   }
 
   function renderAll() {
-    // Header
     document.getElementById('goalName').textContent = goalTitle;
     document.getElementById('streakNum').textContent = streak;
-
-    // Ring
-    document.getElementById('ringUnit').textContent = targetUnit.toUpperCase();
-    document.getElementById('ringTarget').textContent = 'of ' + targetValue + ' today';
-    document.getElementById('logUnit').textContent = targetUnit;
-    updateRing(currentValue);
-
-    // Day dots
-    renderDots();
-
-    // Day count
+    document.getElementById('ringUnitLabel').textContent = targetUnit.toUpperCase();
+    document.getElementById('ringTargetLabel').textContent = 'of ' + targetValue + ' today';
+    document.getElementById('logUnitText').textContent = targetUnit;
     document.getElementById('dayCount').textContent = 'Day ' + currentDay + '/30';
 
-    // If already completed today
-    if (todayLogged && currentValue >= targetValue) {
-      markComplete();
-    }
+    updateRing(currentValue);
+    renderDots();
+
+    if (todayDone) markComplete();
   }
 
-  function updateRing(value) {
-    const clamped = Math.min(value, targetValue);
-    const percent = clamped / targetValue;
-    const circumference = 628;
-    const offset = circumference - (percent * circumference);
-
+  function updateRing(val) {
+    var clamped = Math.min(val, targetValue);
+    var pct = targetValue > 0 ? clamped / targetValue : 0;
+    var circ = 2 * Math.PI * 95;
+    var offset = circ - (pct * circ);
+    document.getElementById('ringProgress').style.strokeDasharray = circ;
     document.getElementById('ringProgress').style.strokeDashoffset = offset;
-    document.getElementById('ringValue').textContent = value;
-
-    if (value >= targetValue) {
-      document.getElementById('ringProgress').style.stroke = '#00E5CC';
-    }
+    document.getElementById('ringValue').textContent = val;
   }
 
   function renderDots() {
-    const container = document.getElementById('dayDots');
+    var container = document.getElementById('dayDots');
     container.innerHTML = '';
-    for (let i = 1; i <= 30; i++) {
-      const dot = document.createElement('div');
+    for (var i = 1; i <= 30; i++) {
+      var dot = document.createElement('div');
       dot.className = 'day-dot';
-      if (completedDays.includes(i)) dot.classList.add('done');
+      if (completedDays.indexOf(i) > -1) dot.classList.add('done');
       else if (i === currentDay) dot.classList.add('today');
       container.appendChild(dot);
     }
   }
 
   function logProgress() {
-    if (todayLogged) return;
-
-    const input = document.getElementById('logInput');
-    const val = parseInt(input.value);
-
+    if (todayDone) return;
+    var val = parseInt(document.getElementById('logInput').value);
     if (!val || val <= 0) {
-      input.style.borderColor = '#FF6B6B';
-      setTimeout(() => input.style.borderColor = 'rgba(0,229,204,0.2)', 1000);
+      document.getElementById('logInput').style.borderColor = '#FF6B6B';
+      setTimeout(function(){ document.getElementById('logInput').style.borderColor = 'rgba(0,229,204,0.2)'; }, 1000);
       return;
     }
 
@@ -691,80 +598,46 @@
     updateRing(currentValue);
 
     if (currentValue >= targetValue) {
-      markComplete();
       completedDays.push(currentDay);
       renderDots();
-
-      // Check streak
       streak++;
       document.getElementById('streakNum').textContent = streak;
+      markComplete();
 
-      // Save to Kodular
-      const data = {
+      var data = {
         action: 'LOG_DONE',
         value: currentValue,
         streak: streak,
         day: currentDay,
         completedDays: completedDays
       };
-      try {
-      // Try to get data from URL params first
-      const raw = params.get("data");
-      if (raw) {
-        const parsed = JSON.parse(decodeURIComponent(raw));
-        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
-        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
-        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
-      } window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
+      try { window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
 
-      // Level up check
-      if (streak > 0 && streak % 7 === 0) {
-        setTimeout(() => showLevelUp(streak), 800);
+      if (streak % 7 === 0) {
+        setTimeout(function(){ showLevelUp(streak); }, 800);
       }
     } else {
-      // Partial log
-      const data = {
-        action: 'LOG_PARTIAL',
-        value: currentValue
-      };
-      try {
-      // Try to get data from URL params first
-      const raw = params.get("data");
-      if (raw) {
-        const parsed = JSON.parse(decodeURIComponent(raw));
-        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
-        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
-        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
-      } window.AppInventor.setWebViewString(JSON.stringify(data)); } catch(e) {}
+      try { window.AppInventor.setWebViewString(JSON.stringify({action:'LOG_PARTIAL',value:currentValue})); } catch(e) {}
     }
   }
 
   function markComplete() {
-    todayLogged = true;
+    todayDone = true;
     document.getElementById('statusText').textContent = '✓ COMPLETE';
     document.getElementById('statusText').classList.add('complete');
-    document.getElementById('logBtn').textContent = '✓ TODAY COMPLETE';
-    document.getElementById('logBtn').classList.add('completed');
-    document.getElementById('logBtn').disabled = true;
     document.getElementById('ringValue').style.color = '#00E5CC';
     document.getElementById('ringValue').style.textShadow = '0 0 20px rgba(0,229,204,0.8)';
+    var btn = document.getElementById('logBtn');
+    btn.textContent = '✓ TODAY COMPLETE';
+    btn.classList.add('done-btn');
+    btn.disabled = true;
   }
 
-  function showLevelUp(streakCount) {
-    const overlay = document.getElementById('levelupOverlay');
-    document.getElementById('levelupSub').textContent = streakCount + '-DAY STREAK ACHIEVED!';
-    overlay.classList.add('show');
+  function showLevelUp(s) {
+    document.getElementById('levelupSub').textContent = s + '-DAY STREAK ACHIEVED!';
+    document.getElementById('levelupOverlay').classList.add('show');
     spawnParticles();
-    // Tell Kodular to play sound
-    try {
-      // Try to get data from URL params first
-      const raw = params.get("data");
-      if (raw) {
-        const parsed = JSON.parse(decodeURIComponent(raw));
-        if (parsed.goalTitle) goalTitle = parsed.goalTitle;
-        if (parsed.targetValue) targetValue = parseInt(parsed.targetValue);
-        if (parsed.targetUnit) targetUnit = parsed.targetUnit;
-      } window.AppInventor.setWebViewString('PLAY_LEVELUP_SOUND'); } catch(e) {}
+    try { window.AppInventor.setWebViewString('PLAY_LEVELUP_SOUND'); } catch(e) {}
   }
 
   function closeLevelUp() {
@@ -772,32 +645,20 @@
   }
 
   function spawnParticles() {
-    const colors = ['#00E5CC', '#FFFFFF', '#00B4A0', '#7FFFD4'];
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
+    var colors = ['#00E5CC','#FFFFFF','#00B4A0'];
+    for (var i = 0; i < 25; i++) {
+      var p = document.createElement('div');
       p.className = 'particle';
-      const size = Math.random() * 8 + 4;
-      const tx = (Math.random() - 0.5) * window.innerWidth * 1.5;
-      const ty = (Math.random() - 0.5) * window.innerHeight * 1.5;
-      p.style.cssText = `
-        width: ${size}px;
-        height: ${size}px;
-        background: ${colors[Math.floor(Math.random()*colors.length)]};
-        left: ${window.innerWidth/2}px;
-        top: ${window.innerHeight/2}px;
-        --tx: ${tx}px;
-        --ty: ${ty}px;
-        animation-delay: ${Math.random()*0.3}s;
-        animation-duration: ${0.8 + Math.random()*0.6}s;
-      `;
+      var size = Math.random() * 8 + 4;
+      var tx = (Math.random() - 0.5) * window.innerWidth * 1.4;
+      var ty = (Math.random() - 0.5) * window.innerHeight * 1.4;
+      p.style.cssText = 'width:'+size+'px;height:'+size+'px;background:'+colors[Math.floor(Math.random()*3)]+';left:'+window.innerWidth/2+'px;top:'+window.innerHeight/2+'px;--tx:'+tx+'px;--ty:'+ty+'px;animation-delay:'+Math.random()*0.3+'s;';
       document.body.appendChild(p);
-      setTimeout(() => p.remove(), 1500);
+      setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, 1500);
     }
   }
 
-  // ── Start ──
   window.onload = init;
 </script>
-
 </body>
 </html>
