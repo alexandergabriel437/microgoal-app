@@ -516,21 +516,17 @@
   }
 
   function setupGoal() {
-    const goal = document.getElementById('goalInput').value.trim();
+    var goal = document.getElementById('goalInput').value.trim();
     if (!goal) {
       document.getElementById('errorMsg').style.display = 'block';
       document.getElementById('goalInput').focus();
       return;
     }
 
-    const data = {
-      action: 'SETUP_GOAL',
-      goalTitle: goal,
-      targetValue: targetValue,
-      targetUnit: selectedUnit
-    };
-
-    window.AppInventor.setWebViewString(JSON.stringify(data));
+    // Send as simple pipe-separated string to avoid JSON encoding issues
+    // Format: SETUP_GOAL|goalTitle|targetValue|targetUnit
+    var msg = 'SETUP_GOAL|' + goal + '|' + targetValue + '|' + selectedUnit;
+    try { window.AppInventor.setWebViewString(msg); } catch(e) {}
   }
 </script>
 

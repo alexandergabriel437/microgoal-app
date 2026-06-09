@@ -528,22 +528,26 @@
 
   function init() {
     try {
-      var search = window.location.search;
-      if (search) {
-        var dataParam = search.split('data=')[1];
-        if (dataParam) {
-          var decoded = decodeURIComponent(dataParam);
-          var json = JSON.parse(decoded);
-          if (json.goalTitle) goalTitle = json.goalTitle;
-          if (json.targetValue) targetValue = parseInt(json.targetValue);
-          if (json.targetUnit) targetUnit = json.targetUnit;
-          if (json.streak) streak = parseInt(json.streak);
-          if (json.day) currentDay = parseInt(json.day);
-          if (json.completedDays) completedDays = json.completedDays;
-          if (json.done) todayDone = json.done === true;
-          if (json.logged) currentValue = parseInt(json.logged);
-        }
+      // Read data from URL — format: ?goal=X&target=Y&unit=Z
+      var url = window.location.href;
+      
+      function getParam(key) {
+        var match = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
+        return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : null;
       }
+
+      var g = getParam('goal');
+      var t = getParam('target');
+      var u = getParam('unit');
+      var s = getParam('streak');
+      var d = getParam('day');
+
+      if (g && g !== 'null') goalTitle = g;
+      if (t && t !== 'null') targetValue = parseInt(t);
+      if (u && u !== 'null') targetUnit = u;
+      if (s && s !== 'null') streak = parseInt(s);
+      if (d && d !== 'null') currentDay = parseInt(d);
+
     } catch(e) {}
 
     renderAll();
