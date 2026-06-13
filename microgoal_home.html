@@ -541,20 +541,17 @@
       var s = getParam('streak');
       var d = getParam('day');
 
+      // Strip prefixes like "TITLE:", "TARGET:", "UNIT:" if present
       if (g && g !== 'null') {
-        // Clean up goal title — remove SETUP_GOAL| prefix if present
-        if (g.indexOf('SETUP_GOAL|') === 0) {
-          var parts = g.split('|');
-          goalTitle = parts[1] || 'My Goal';
-          targetValue = parseInt(parts[2]) || 10;
-          targetUnit = parts[3] || 'Pages';
-        } else {
-          goalTitle = g;
-        }
+        goalTitle = g.indexOf('TITLE:') === 0 ? g.substring(6) : g;
       }
-
-      if (t && t !== 'null') targetValue = parseInt(t);
-      if (u && u !== 'null') targetUnit = u;
+      if (t && t !== 'null') {
+        var tClean = t.indexOf('TARGET:') === 0 ? t.substring(7) : t;
+        targetValue = parseInt(tClean) || 10;
+      }
+      if (u && u !== 'null') {
+        targetUnit = u.indexOf('UNIT:') === 0 ? u.substring(5) : u;
+      }
       if (s && s !== 'null') streak = parseInt(s);
       if (d && d !== 'null') currentDay = parseInt(d);
 
