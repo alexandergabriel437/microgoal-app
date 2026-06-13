@@ -523,10 +523,15 @@
       return;
     }
 
-    // Send as simple pipe-separated string to avoid JSON encoding issues
-    // Format: SETUP_GOAL|goalTitle|targetValue|targetUnit
-    var msg = 'SETUP_GOAL|' + goal + '|' + targetValue + '|' + selectedUnit;
-    try { window.AppInventor.setWebViewString(msg); } catch(e) {}
+    // Send signals one by one with delays so Kodular can process each
+    function send(msg) {
+      try { window.AppInventor.setWebViewString(msg); } catch(e) {}
+    }
+
+    send('TITLE:' + goal);
+    setTimeout(function(){ send('TARGET:' + targetValue); }, 300);
+    setTimeout(function(){ send('UNIT:' + selectedUnit); }, 600);
+    setTimeout(function(){ send('GOTO_HOME'); }, 1000);
   }
 </script>
 
