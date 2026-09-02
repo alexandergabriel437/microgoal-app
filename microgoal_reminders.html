@@ -760,7 +760,27 @@
     setTimeout(function() { toast.classList.remove('show'); }, 2500);
   }
 
-  window.onload = function() {};
+  window.onload = function() {
+    // Load saved reminder data if available
+    try {
+      var url = window.location.href;
+      var match = url.match(/[?&]data=([^&]*)/);
+      if (match) {
+        var data = JSON.parse(decodeURIComponent(match[1]));
+        if (data.goalTime) {
+          document.getElementById('goalTimeDisplay').textContent = data.goalTime;
+        }
+        if (data.goalReminderOn) {
+          var t = document.getElementById('goalToggle');
+          if (!data.goalReminderOn) t.classList.remove('on');
+        }
+        if (data.medReminderOn) {
+          var mt = document.getElementById('medToggle');
+          if (data.medReminderOn) mt.classList.add('on');
+        }
+      }
+    } catch(e) {}
+  };
 </script>
 
 </body>
