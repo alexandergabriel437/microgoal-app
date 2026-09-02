@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>MicroGoal - Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: #0A0E1A;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Rajdhani', sans-serif;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bg-grid {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+      linear-gradient(rgba(0,229,204,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,204,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .header {
+    position: relative;
+    z-index: 1;
+    padding: 48px 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(0,229,204,0.08);
+    border: 1px solid rgba(0,229,204,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #00E5CC;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 24px 120px;
+    gap: 20px;
+  }
+
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0,229,204,0.15), rgba(0,180,160,0.05));
+    border: 2px solid #00E5CC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    box-shadow: 0 0 30px rgba(0,229,204,0.25);
+  }
+
+  .player-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+  }
+
+  .player-tag {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,229,204,0.12);
+    border-radius: 16px;
+    padding: 16px 8px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #00E5CC;
+    text-shadow: 0 0 10px rgba(0,229,204,0.4);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .quest-card {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,229,204,0.12);
+    border-radius: 18px;
+    padding: 18px 20px;
+  }
+
+  .card-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #00E5CC;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+
+  .quest-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .quest-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+  }
+
+  .menu-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,229,204,0.1);
+    border-radius: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .menu-item:active {
+    background: rgba(0,229,204,0.06);
+  }
+
+  .menu-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(0,229,204,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .menu-text {
+    flex: 1;
+  }
+
+  .menu-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .menu-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  .menu-arrow {
+    color: rgba(255,255,255,0.3);
+    font-size: 18px;
+  }
+
+  .menu-item.danger .menu-icon {
+    background: rgba(255,107,107,0.1);
+  }
+
+  .menu-item.danger .menu-title {
+    color: #FF6B6B;
+  }
+
+  .toggle {
+    width: 46px;
+    height: 26px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.1);
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+
+  .toggle.on {
+    background: #00E5CC;
+  }
+
+  .toggle-knob {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: left 0.2s ease;
+  }
+
+  .toggle.on .toggle-knob {
+    left: 23px;
+  }
+
+  .version-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 10;
+    background: rgba(10,14,26,0.97);
+    border-top: 1px solid rgba(0,229,204,0.1);
+    display: flex;
+    padding: 10px 0 24px;
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .nav-icon { font-size: 20px; }
+
+  .nav-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  .nav-item.active .nav-label { color: #00E5CC; }
+  .nav-item.active .nav-icon { filter: drop-shadow(0 0 5px rgba(0,229,204,0.8)); }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-box {
+    width: 100%;
+    max-width: 340px;
+    background: #11182b;
+    border: 1px solid rgba(0,229,204,0.25);
+    border-radius: 18px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .modal-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .modal-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+
+  .modal-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .modal-btn.cancel {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .modal-btn.confirm {
+    background: linear-gradient(135deg, #FF6B6B, #E64545);
+    color: #FFFFFF;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="header">
+  <div class="back-btn" onclick="goBack()">←</div>
+  <div class="header-title">PROFILE</div>
+</div>
+
+<div class="content">
+
+  <div class="avatar-section">
+    <div class="avatar">🧙</div>
+    <div class="player-name">Challenger</div>
+    <div class="player-tag">Level 1 · Goal Seeker</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="currentStreak">0</div>
+      <div class="stat-label">Current<br>Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="bestStreak">0</div>
+      <div class="stat-label">Best<br>Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="totalDays">0</div>
+      <div class="stat-label">Days<br>Completed</div>
+    </div>
+  </div>
+
+  <div class="quest-card">
+    <div class="card-label">Current Quest</div>
+    <div class="quest-name" id="currentGoal">My Goal</div>
+    <div class="quest-sub" id="currentTarget">Target: 10 Pages daily</div>
+  </div>
+
+  <div class="menu-list">
+    <div class="menu-item" onclick="goReminders()">
+      <div class="menu-icon">⏰</div>
+      <div class="menu-text">
+        <div class="menu-title">Reminders</div>
+        <div class="menu-sub">Daily quest & medicine alerts</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-item" onclick="toggleSound()">
+      <div class="menu-icon">🔊</div>
+      <div class="menu-text">
+        <div class="menu-title">Sound Effects</div>
+        <div class="menu-sub">Level-up sounds & feedback</div>
+      </div>
+      <div class="toggle on" id="soundToggle"><div class="toggle-knob"></div></div>
+    </div>
+
+    <div class="menu-item" onclick="showChangeGoalModal()">
+      <div class="menu-icon">🔄</div>
+      <div class="menu-text">
+        <div class="menu-title">Change Goal</div>
+        <div class="menu-sub">Start a new 30-day challenge</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-item danger" onclick="showResetModal()">
+      <div class="menu-icon">⚠️</div>
+      <div class="menu-text">
+        <div class="menu-title">Reset Progress</div>
+        <div class="menu-sub">Clear streak & all stats</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="version-text">MicroGoal v1.0 · 30-Day Challenger</div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" onclick="goHome()">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Home</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Log</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">Calendar</span>
+  </div>
+  <div class="nav-item active">
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">Profile</span>
+  </div>
+</div>
+
+<div class="modal-overlay" id="changeGoalModal">
+  <div class="modal-box">
+    <div class="modal-icon">🔄</div>
+    <div class="modal-title">Change Your Quest?</div>
+    <div class="modal-sub">This will end your current 30-day challenge. You'll set up a brand new quest from scratch.</div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModals()">CANCEL</button>
+      <button class="modal-btn confirm" onclick="confirmChangeGoal()">YES, CHANGE</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title">Reset Everything?</div>
+    <div class="modal-sub">This will permanently erase your streak, completed days, and quest data. This cannot be undone!</div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModals()">CANCEL</button>
+      <button class="modal-btn confirm" onclick="confirmReset()">RESET</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getParam(key) {
+    var url = window.location.href;
+    var match = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
+    return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : null;
+  }
+
+  function init() {
+    var goal = getParam('goal');
+    var target = getParam('target');
+    var unit = getParam('unit');
+    var streak = getParam('streak');
+    var best = getParam('best');
+    var total = getParam('total');
+
+    if (goal && goal.indexOf('TITLE:') === 0) goal = goal.substring(6);
+    if (target && target.indexOf('TARGET:') === 0) target = target.substring(7);
+    if (unit && unit.indexOf('UNIT:') === 0) unit = unit.substring(5);
+
+    if (goal) document.getElementById('currentGoal').textContent = goal;
+    if (target && unit) {
+      document.getElementById('currentTarget').textContent = 'Target: ' + target + ' ' + unit + ' daily';
+    }
+    if (streak) document.getElementById('currentStreak').textContent = streak;
+    if (best) document.getElementById('bestStreak').textContent = best;
+    if (total) document.getElementById('totalDays').textContent = total;
+  }
+
+  function send(msg) {
+    try { window.AppInventor.setWebViewString(msg); } catch(e) {}
+  }
+
+  function goBack() { send('GOTO_HOME'); }
+  function goHome() { send('GOTO_HOME'); }
+  function goReminders() { send('GOTO_REMINDERS'); }
+
+  function toggleSound() {
+    var t = document.getElementById('soundToggle');
+    t.classList.toggle('on');
+    send('SOUND_' + (t.classList.contains('on') ? 'ON' : 'OFF'));
+  }
+
+  function showChangeGoalModal() {
+    document.getElementById('changeGoalModal').classList.add('show');
+  }
+
+  function showResetModal() {
+    document.getElementById('resetModal').classList.add('show');
+  }
+
+  function closeModals() {
+    document.getElementById('changeGoalModal').classList.remove('show');
+    document.getElementById('resetModal').classList.remove('show');
+  }
+
+  function confirmChangeGoal() { send('CHANGE_GOAL'); }
+  function confirmReset() { send('RESET_ALL'); }
+
+  window.onload = init;
+</script>
+
+</body>
+</html>
