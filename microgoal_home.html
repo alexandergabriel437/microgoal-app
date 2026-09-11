@@ -528,46 +528,56 @@
   var completedDays = [];
   var todayDone = false;
 
+  // Parse URL parameters helper
+  function getParam(key) {
+    var url = window.location.href;
+    var match = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
+    return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : null;
+  }
+
   function init() {
     try {
-      var url = window.location.href;
-
-      function getParam(key) {
-        var match = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
-        return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : null;
+      // Method 1: Try setup param (new format SETUP_DONE~title~target~unit)
+      var setup = getParam('setup');
+      if (setup && setup.length > 0) {
+        // Remove any URL encoding artifacts
+        setup = setup.trim();
+        if (setup.indexOf('SETUP_DONE~') === 0) {
+          var parts = setup.split('~');
+          if (parts.length >= 4) {
+            goalTitle = parts[1] || goalTitle;
+            targetValue = parseInt(parts[2]) || targetValue;
+            targetUnit = parts[3] || targetUnit;
+          }
+        }
       }
 
+      // Method 2: Try individual params as fallback
       var g = getParam('goal');
       var t = getParam('target');
       var u = getParam('unit');
+
+      if (g && g.length > 0 && g !== 'My%20Goal' && g !== 'My Goal') {
+        goalTitle = decodeURIComponent(g).replace('TITLE:', '').trim();
+      }
+      if (t && t.length > 0) {
+        var num = parseInt(t.replace(/[^0-9]/g, ''));
+        if (!isNaN(num) && num > 0) targetValue = num;
+      }
+      if (u && u.length > 0) {
+        var uClean = u.replace('UNIT:', '').trim();
+        if (uClean.length > 0 && uClean !== 'Pages') targetUnit = uClean;
+      }
+
+      // Streak and day
       var s = getParam('streak');
       var d = getParam('day');
+      if (s) streak = parseInt(s) || 0;
+      if (d) currentDay = parseInt(d) || 1;
 
-      // Strip prefixes like "TITLE:", "TARGET:", "UNIT:" if present
-      if (g && g !== 'null') {
-        var gClean = g;
-        if (gClean.indexOf('TITLE:') === 0) gClean = gClean.substring(6);
-        if (gClean.indexOf('|') > -1) gClean = gClean.split('|')[0];
-        goalTitle = gClean;
-      }
-      if (t && t !== 'null') {
-        // Remove TARGET: prefix if present
-        var tClean = t;
-        if (tClean.indexOf('TARGET:') === 0) tClean = tClean.substring(7);
-        // Remove any trailing pipe-separated data
-        if (tClean.indexOf('|') > -1) tClean = tClean.split('|')[0];
-        targetValue = parseInt(tClean) || 10;
-      }
-      if (u && u !== 'null') {
-        var uClean = u;
-        if (uClean.indexOf('UNIT:') === 0) uClean = uClean.substring(5);
-        if (uClean.indexOf('|') > -1) uClean = uClean.split('|')[0];
-        targetUnit = uClean;
-      }
-      if (s && s !== 'null') streak = parseInt(s);
-      if (d && d !== 'null') currentDay = parseInt(d);
-
-    } catch(e) {}
+    } catch(e) {
+      console.log('Init error: ' + e);
+    }
 
     renderAll();
   }
